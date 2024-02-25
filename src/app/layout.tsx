@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { raleway } from "@/assets/fonts";
+import { montserrat } from "@/lib/fonts";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={`${raleway.variable} px-5 py-10`} lang="en">
+    <html className={`${montserrat.variable}`} lang="en">
       <body className={inter.className}>{children}</body>
     </html>
   );
