@@ -1,19 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
+import DeleteWorkshopAlert from "./delete-alert";
 
 type Service =
   | "Repair"
@@ -31,7 +22,7 @@ export type Workshop = {
   reviewsCount: number;
   services: Service[];
   contact: string;
-  status: "Active" | "Inactive";
+  status: "1" | "0";
 };
 export const columns: ColumnDef<Workshop>[] = [
   {
@@ -67,6 +58,10 @@ export const columns: ColumnDef<Workshop>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const { status } = row.original;
+      return Number(status) ? "Active" : "Inactive";
+    },
   },
   {
     // accessorKey: "",
@@ -77,29 +72,7 @@ export const columns: ColumnDef<Workshop>[] = [
       return (
         <div className="flex gap-2">
           <Link href={`/dashboard/workshop/edit/${id}`}>Edit</Link>
-          <Dialog>
-            <DialogTrigger>Delete</DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Delete workshop</DialogTitle>
-                <DialogDescription>
-                  Are you sure you want to delete this workshop?
-                </DialogDescription>
-                <DialogDescription>
-                  You are about to delete {name} located at {location}. This
-                  action cannot be undone. Deleting this workshop will remove it
-                  permanently from the listing and any associated reviews or
-                  bookings will be lost.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <DialogClose>
-                  <Button>Cancel</Button>
-                </DialogClose>
-                <Button>Delete</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <DeleteWorkshopAlert id={id} location={location} name={name} />
         </div>
       );
     },

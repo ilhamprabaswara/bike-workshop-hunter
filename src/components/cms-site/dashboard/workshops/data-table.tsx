@@ -22,17 +22,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-label";
+import StatusFilter from "./status-filter";
+import NewWorkshopModal from "./new-workshop";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  refetch: () => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  refetch
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -55,15 +57,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center gap-3 py-4">
-        <Label>Filter Status</Label>
-        <Input
-          value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("status")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex items-center justify-between py-4">
+        <NewWorkshopModal refetch={refetch} />
+        <StatusFilter table={table} />
       </div>
       <div className="rounded-md border">
         <Table>
