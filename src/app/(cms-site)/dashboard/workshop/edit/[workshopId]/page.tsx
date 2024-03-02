@@ -11,19 +11,29 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { useGetWorkshopDetail } from "@/lib/query/dashboard/hooks";
 import { useForm } from "react-hook-form";
 
-const DashboardWorkshopEditPage = () => {
-  const form = useForm({
-    // resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      location: "",
-    },
-  });
-
+const DashboardWorkshopEditPage = ({
+  params,
+}: {
+  params: { workshopId: string };
+}) => {
+  const { data: workshopDetailData, isFetching } = useGetWorkshopDetail(
+    params.workshopId
+  );
+  const form = useForm();
+  if (workshopDetailData) {
+    form.setValue("name", workshopDetailData[0].name);
+    form.setValue("location", workshopDetailData[0].location);
+    form.setValue("contact", workshopDetailData[0].contact);
+  }
   function onSubmit(values: any) {
     console.log(values);
+  }
+
+  if (isFetching) {
+    return <h1>Loading...</h1>;
   }
   return (
     <div className="px-5">
