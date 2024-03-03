@@ -16,7 +16,7 @@ export default async function DashboardLayout({
     },
     {
       title: "Workshop Listings",
-      href: "/dashboard/listings",
+      href: "/dashboard/workshops",
       external: true,
       icon: "ExternalLinkIcon", // assuming "ExternalLinkIcon" is a key in Icons
     },
