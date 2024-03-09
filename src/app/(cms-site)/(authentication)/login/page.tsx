@@ -52,13 +52,6 @@ const LoginPage = () => {
         </Card>
       </div>
     </div>
-    // <form>
-    //   <Label htmlFor="email">Email:</Label>
-    //   <Input id="email" name="email" type="email" required />
-    //   <Label htmlFor="password">Password:</Label>
-    //   <Input id="password" name="password" type="password" required />
-    //   <button formAction={login}>Login</button>
-    // </form>
   );
 };
 
