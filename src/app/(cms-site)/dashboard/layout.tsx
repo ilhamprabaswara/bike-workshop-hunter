@@ -1,4 +1,6 @@
 import { DashboardNav } from "@/components/cms-site/layout/sidebar";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -27,6 +29,11 @@ export default async function DashboardLayout({
       icon: "ExternalLinkIcon", // assuming "ExternalLinkIcon" is a key in Icons
     },
   ];
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/login");
+  }
   return (
     <>
       <div className="flex min-h-screen flex-col space-y-6">
