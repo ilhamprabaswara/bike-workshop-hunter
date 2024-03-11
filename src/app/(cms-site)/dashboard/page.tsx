@@ -1,11 +1,19 @@
+"use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useGetWorkshopsSummary } from "@/lib/query/dashboard/hooks";
 
 export default function DemoPage() {
+  const { data: workshopSummaryData, isFetching } = useGetWorkshopsSummary();
+  if (isFetching) {
+    return <h1>Loading...</h1>;
+  }
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Workshop Listed</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Workshops Listed
+          </CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -20,7 +28,9 @@ export default function DemoPage() {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">128</div>
+          <div className="text-2xl font-bold">
+            {workshopSummaryData[0].total_workshop}
+          </div>
           <p className="text-muted-foreground text-xs">
             +20.1% from last month
           </p>
@@ -45,7 +55,9 @@ export default function DemoPage() {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+2350</div>
+          <div className="text-2xl font-bold">
+            +{workshopSummaryData[0].new_workshop}
+          </div>
           <p className="text-muted-foreground text-xs">
             +180.1% from last month
           </p>
@@ -53,29 +65,9 @@ export default function DemoPage() {
       </Card>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Sales</CardTitle>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="text-muted-foreground h-4 w-4"
-          >
-            <rect width="20" height="14" x="2" y="5" rx="2" />
-            <path d="M2 10h20" />
-          </svg>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">+12,234</div>
-          <p className="text-muted-foreground text-xs">+19% from last month</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+          <CardTitle className="text-sm font-medium">
+            Active Workshops
+          </CardTitle>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -90,7 +82,9 @@ export default function DemoPage() {
           </svg>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">+573</div>
+          <div className="text-2xl font-bold">
+            {workshopSummaryData[0].active_workshop}
+          </div>
           <p className="text-muted-foreground text-xs">+201 since last hour</p>
         </CardContent>
       </Card>
