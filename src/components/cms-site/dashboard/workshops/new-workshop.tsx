@@ -48,6 +48,8 @@ const NewWorkshopModal = () => {
       location: "",
       contact: "",
       status: "1",
+      services: "",
+      rating: 0,
     },
   });
   return (
@@ -104,9 +106,12 @@ const NewWorkshopModal = () => {
                     <FormLabel htmlFor="status" className="text-right">
                       Status
                     </FormLabel>
-                    <Select>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
-                        <SelectTrigger id="status" className="col-span-3">
+                        <SelectTrigger className="col-span-3">
                           <SelectValue placeholder="Status" {...field} />
                         </SelectTrigger>
                       </FormControl>
@@ -115,6 +120,37 @@ const NewWorkshopModal = () => {
                         <SelectItem value="0">Inactive</SelectItem>
                       </SelectContent>
                     </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="services"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel htmlFor="services" className="text-right">
+                      Services
+                    </FormLabel>
+                    <FormControl>
+                      <Input className="col-span-3" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="rating"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel htmlFor="rating" className="text-right">
+                      Rating
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        max={5}
+                        className="col-span-3"
+                        {...field}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
