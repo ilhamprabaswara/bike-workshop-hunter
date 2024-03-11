@@ -1,11 +1,25 @@
-const getMasterData = async () => {
+const getWorkshopsSummary = async () => {
   const res = await fetch(
-    "https://api.steinhq.com/v1/storages/65df429c4a64236312092d63/workshops"
+    "https://api.steinhq.com/v1/storages/65df429c4a64236312092d63/summary"
   );
   return await res.json();
 };
 
+const getWorkshopsList = async () => {
+  const res = await fetch(
+    "https://api.steinhq.com/v1/storages/65df429c4a64236312092d63/workshops"
+  );
+  const workshopsList = await res.json();
+  return workshopsList.filter((workshop: { id: string }) => workshop.id);
+};
+
 const postNewWorkshop = async (body: any) => {
+  const objDate = new Date();
+  const workshopItem = {
+    ...body,
+    id: objDate.valueOf(),
+    date_added: `${objDate.getFullYear()}-${objDate.getMonth() + 1}-${objDate.getDate()} ${objDate.getHours()}:${objDate.getMinutes()}:${objDate.getSeconds()}`,
+  };
   const res = await fetch(
     "https://api.steinhq.com/v1/storages/65df429c4a64236312092d63/workshops",
     {
@@ -13,7 +27,7 @@ const postNewWorkshop = async (body: any) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify([body]),
+      body: JSON.stringify([workshopItem]),
     }
   );
   return await res.json();
@@ -64,7 +78,8 @@ const editWorkshopDetail = async (body: any) => {
 };
 
 export {
-  getMasterData,
+  getWorkshopsSummary,
+  getWorkshopsList,
   postNewWorkshop,
   deleteWorkshop,
   getWorkshopDetail,

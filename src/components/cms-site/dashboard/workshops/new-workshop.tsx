@@ -27,17 +27,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const NewWorkshopModal = ({ refetch }: { refetch: () => void }) => {
+const NewWorkshopModal = () => {
   const [open, setOpen] = useState<boolean>(false);
   const { mutate: mutatePostNewWorkshop } = usePostNewWorkshop();
   const onNewWorkshopSubmit = (data: any) => {
-    mutatePostNewWorkshop(data, {
-      onSuccess: () => {
-        toast.success("New workshop is successfully added!");
-        setOpen(false);
-        refetch();
-      },
-    });
+    const id = `id_${new Date().getTime()}_${Math.random().toString(36).substr(2, 9)}`;
+    mutatePostNewWorkshop(
+      { ...data, id },
+      {
+        onSuccess: () => {
+          toast.success("New workshop is successfully added!");
+          setOpen(false);
+        },
+      }
+    );
   };
   const form = useForm({
     defaultValues: {
@@ -45,6 +48,8 @@ const NewWorkshopModal = ({ refetch }: { refetch: () => void }) => {
       location: "",
       contact: "",
       status: "1",
+      services: "",
+      rating: 0,
     },
   });
   return (
@@ -101,9 +106,12 @@ const NewWorkshopModal = ({ refetch }: { refetch: () => void }) => {
                     <FormLabel htmlFor="status" className="text-right">
                       Status
                     </FormLabel>
-                    <Select>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
-                        <SelectTrigger id="status" className="col-span-3">
+                        <SelectTrigger className="col-span-3">
                           <SelectValue placeholder="Status" {...field} />
                         </SelectTrigger>
                       </FormControl>
@@ -112,6 +120,37 @@ const NewWorkshopModal = ({ refetch }: { refetch: () => void }) => {
                         <SelectItem value="0">Inactive</SelectItem>
                       </SelectContent>
                     </Select>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="services"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel htmlFor="services" className="text-right">
+                      Services
+                    </FormLabel>
+                    <FormControl>
+                      <Input className="col-span-3" {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="rating"
+                render={({ field }) => (
+                  <FormItem className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel htmlFor="rating" className="text-right">
+                      Rating
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        max={5}
+                        className="col-span-3"
+                        {...field}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
