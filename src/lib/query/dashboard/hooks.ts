@@ -2,33 +2,41 @@
 import {
   deleteWorkshop,
   editWorkshopDetail,
-  getMasterData,
   getWorkshopDetail,
+  getWorkshopsList,
   postNewWorkshop,
 } from "@/lib/query/dashboard/fetcher";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export const useGetMasterData = () => {
+export const useGetWorkshopsList = () => {
   const { isPending, error, data, isFetching, refetch } = useQuery({
-    queryKey: ["masterData"],
-    queryFn: () => getMasterData(),
+    queryKey: ["workshopsListData"],
+    queryFn: () => getWorkshopsList(),
     refetchOnWindowFocus: false,
   });
   return { isPending, error, data, isFetching, refetch };
 };
 
 export const usePostNewWorkshop = () => {
+  const queryClient = useQueryClient();
   const { isPending, error, mutate } = useMutation({
     mutationKey: ["postRegisterUser"],
     mutationFn: (body: any) => postNewWorkshop(body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workshopsListData"] });
+    },
   });
   return { isPending, error, mutate };
 };
 
 export const useDeleteWorkshop = () => {
+  const queryClient = useQueryClient();
   const { isPending, error, mutate } = useMutation({
     mutationKey: ["postRegisterUser"],
     mutationFn: (id: number) => deleteWorkshop(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workshopsListData"] });
+    },
   });
   return { isPending, error, mutate };
 };

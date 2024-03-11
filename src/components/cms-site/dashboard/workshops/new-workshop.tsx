@@ -27,17 +27,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const NewWorkshopModal = ({ refetch }: { refetch: () => void }) => {
+const NewWorkshopModal = () => {
   const [open, setOpen] = useState<boolean>(false);
   const { mutate: mutatePostNewWorkshop } = usePostNewWorkshop();
   const onNewWorkshopSubmit = (data: any) => {
-    mutatePostNewWorkshop(data, {
-      onSuccess: () => {
-        toast.success("New workshop is successfully added!");
-        setOpen(false);
-        refetch();
-      },
-    });
+    const id = `id_${new Date().getTime()}_${Math.random().toString(36).substr(2, 9)}`;
+    mutatePostNewWorkshop(
+      { ...data, id },
+      {
+        onSuccess: () => {
+          toast.success("New workshop is successfully added!");
+          setOpen(false);
+        },
+      }
+    );
   };
   const form = useForm({
     defaultValues: {

@@ -28,13 +28,11 @@ import NewWorkshopModal from "./new-workshop";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  refetch: () => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  refetch
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -58,7 +56,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center justify-between py-4">
-        <NewWorkshopModal refetch={refetch} />
+        <NewWorkshopModal />
         <StatusFilter table={table} />
       </div>
       <div className="rounded-md border">

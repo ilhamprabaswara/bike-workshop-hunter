@@ -25,7 +25,7 @@ const DeleteWorkshopAlert = ({
   const onDeleteWorkshop = () => {
     mutateDeleteWorkshop(id, {
       onSuccess: () => {
-        toast.info(`Workshop ${name} is successfully deleted`);
+        toast.warning(`Workshop ${name} is successfully deleted`);
       },
     });
   };

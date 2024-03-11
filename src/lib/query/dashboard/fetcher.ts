@@ -1,4 +1,4 @@
-const getMasterData = async () => {
+const getWorkshopsList = async () => {
   const res = await fetch(
     "https://api.steinhq.com/v1/storages/65df429c4a64236312092d63/workshops"
   );
@@ -64,7 +64,7 @@ const editWorkshopDetail = async (body: any) => {
 };
 
 export {
-  getMasterData,
+  getWorkshopsList,
   postNewWorkshop,
   deleteWorkshop,
   getWorkshopDetail,
